@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="zh-cn" />
+<script>
+function changetext(id)
+{
+    var ws = new WebSocket("ws://192.168.0.100:8081");
+	ws.onopen = function(evt) { 
+  		console.log("Connection open ..."); 
+  		 // alert("onOpen");
+        if(ws && ws.readyState === 1){
+          ws.send('f0:18:98:10:cc:35');
+        }else{
+        console.log( "readyState officeline");
+        }
+
+	};
+
+	ws.onmessage = function(evt) {
+		 // alert("onmessage");
+     console.log( "Received Message: " + evt.data);
+     if(ws && ws.readyState === 1){
+          ws.send('f0:18:98:10:cc:35');
+     }else{
+         console.log( "onmessage readyState officeline");
+     }
+	};
+
+	ws.onclose = function(evt) {
+		alert("onclose code=" + evt.code + "，reason=" + evt.reason);
+  		console.log("Connection closed.code = " + evt.code + "，reason=" + evt.reason);
+	};  
+
+	ws.onerror = function(event) {
+		alert("onerror");
+  		console.error("WebSocket error observed:", event);
+	};
+
+}
+</script>
+</head>
+<body>
+<h1 onclick="changetext(this)">点我连接!</h1>
+</body>
+</html>
